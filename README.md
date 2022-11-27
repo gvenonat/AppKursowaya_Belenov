@@ -1,6 +1,6 @@
 # Belenov_AIS
 ## Как запустить:
-1. Скачать OpenJFX 12 ([example] (https://github.com/Devorlon/OpenJFX-Installation-Linux))
+1. Скачать OpenJFX 12 ([example](https://github.com/Devorlon/OpenJFX-Installation-Linux))
 2. Распокавать библитеку в удобной вам дирриктории
 3. Подключить библиотеку к среде разработки
 ```
