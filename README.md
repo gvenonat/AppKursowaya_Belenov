@@ -15,4 +15,10 @@ IDEA -> File -> Project Structure -> Lib && Global Lib -> '+' -> Java -> 'path' 
 
 ## БД - PostgreSQL
 1. скачать PostgreSQL
-2. установить подключение к IDEA
+```
+sudo apt install postgresql postgresql-contrib
+sudo -i -u postgres
+``` 
+Установим также графический интерфейс ([example](https://github.com/Devorlon/OpenJFX-Installation-Linux))
+Создадим нашу БД "Учет продаж тарифных планов" - УПТП
+3. установить подключение к IDEA
