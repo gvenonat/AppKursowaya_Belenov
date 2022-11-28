@@ -18,6 +18,8 @@ IDEA -> File -> Project Structure -> Lib && Global Lib -> '+' -> Java -> 'path' 
 ```
 sudo apt install postgresql postgresql-contrib
 sudo -i -u postgres
+psql
+ALTER USER postgres WITH PASSWORD '12345';
 ``` 
 Установим также графический интерфейс ([example](https://www.pgadmin.org/download/pgadmin-4-apt/))
 Создадим нашу БД "Учет продаж тарифных планов" - УПТП
