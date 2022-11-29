@@ -22,6 +22,7 @@ psql
 ALTER USER postgres WITH PASSWORD '12345';
 ``` 
 2. Установим также графический интерфейс ([example](https://www.pgadmin.org/download/pgadmin-4-apt/))
+
 И создадим нашу БД "Учет продаж тарифных планов" - УПТП
 Иллюстрация из [ERwin Data Modeler](https://ru.wikipedia.org/wiki/ERwin_Data_Modeler):
 
