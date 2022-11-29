@@ -14,14 +14,16 @@ IDEA -> File -> Project Structure -> Lib && Global Lib -> '+' -> Java -> 'path' 
 - Доп. логика по теме
 
 ## БД - PostgreSQL
-1. скачать PostgreSQL
+1. Cкачать PostgreSQL
 ```
 sudo apt install postgresql postgresql-contrib
 sudo -i -u postgres
 psql
 ALTER USER postgres WITH PASSWORD '12345';
 ``` 
-Установим также графический интерфейс ([example](https://www.pgadmin.org/download/pgadmin-4-apt/))
+2. Установим также графический интерфейс ([example](https://www.pgadmin.org/download/pgadmin-4-apt/))
 Создадим нашу БД "Учет продаж тарифных планов" - УПТП
+Иллюстрация из [ERwin Data Modeler](https://ru.wikipedia.org/wiki/ERwin_Data_Modeler):
 ![Иллюстрация к DB](https://github.com/luchikAR/AppKursowaya_Belenov/blob/main/BD_java.jpg)
-2. установить подключение к IDEA
+
+3. SQL-скрипт находится в папке resources
