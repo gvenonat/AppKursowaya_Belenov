@@ -23,5 +23,5 @@ ALTER USER postgres WITH PASSWORD '12345';
 ``` 
 Установим также графический интерфейс ([example](https://www.pgadmin.org/download/pgadmin-4-apt/))
 Создадим нашу БД "Учет продаж тарифных планов" - УПТП
-![Иллюстрация к DB](https://github.com/luchikAR/AppKursowaya_Belenov/main/DB_java.jpg)
+![Иллюстрация к DB](https://github.com/luchikAR/AppKursowaya_Belenov/DB_java.jpg)
 2. установить подключение к IDEA
