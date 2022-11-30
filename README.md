@@ -6,6 +6,10 @@
 ```
 IDEA -> File -> Project Structure -> Lib && Global Lib -> '+' -> Java -> 'path' -> add
 ```
+4. Добавить зависимать сбоки
+```
+--module-path "/home/vboxuser/.javafx/lib" --add-modules javafx.controls,javafx.fxml
+```
 
 ## Описание
 Создать десктопное приложение по теме "АИС учета продаж тарифных планов операторов сотовой связи"
