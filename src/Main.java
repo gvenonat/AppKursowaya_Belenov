@@ -1,3 +1,4 @@
+import com.sun.jdi.event.ExceptionEvent;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,7 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.sql.*;
 import java.util.ArrayList;
+import java.lang.Exception;
 
 
 public class Main extends Application {
@@ -34,8 +37,39 @@ public class Main extends Application {
     private ArrayList<Discounts> discounts = new ArrayList<>();
 
     public static void main(String[] args) {
+        try {
+            connectDB();
+        } catch (Exception e) {
+            return;
+        }
         insertData();
         launch(args);
+    }
+
+    private static void connectDB() throws SQLException {
+        final String user = "postgres";
+        final String password = "12345";
+        final String url = "jdbc:postgresql://localhost:5432/AIS_UPTP";
+
+        final Connection connection = DriverManager.getConnection(url, user, password);
+
+        try (PreparedStatement statement = (connection).prepareStatement("SELECT amount, time_in_company FROM discounts WHERE id = (?)")) {
+
+            statement.setInt(1, 2);
+
+            final ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String byAmount = "amount: " + resultSet.getString("amount");
+                final int byTimeInCompany = resultSet.getInt("time_in_company");
+                System.out.println(byAmount);
+                System.out.println(byTimeInCompany);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            connection.close();
+        }
     }
 
     private static void insertData(){
