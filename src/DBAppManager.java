@@ -30,10 +30,38 @@ public class DBAppManager{
 //        }
 //    }
 
-        public ResultSet getTariffsData() throws SQLException {
+    public ResultSet getTariffsData() throws SQLException {
         String sql = "SELECT * FROM TARIFFS";
 
-        try (Connection connection =  DriverManager.getConnection(url, user, password)) {
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            final ResultSet resultSet = statement.executeQuery();
+
+            return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet getDiscountsData() throws SQLException {
+        String sql = "SELECT * FROM DISCOUNTS";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            final ResultSet resultSet = statement.executeQuery();
+
+            return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet getSalesData() throws SQLException {
+        String sql = "SELECT * FROM SALES";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             final ResultSet resultSet = statement.executeQuery();

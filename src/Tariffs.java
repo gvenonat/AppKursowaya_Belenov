@@ -16,7 +16,7 @@ public class Tariffs {
 
     public Tariffs(Integer id, String name, Integer cost, String description, Date start_sales, Date end_sales) {
         this.id = id;
-        this.name = name.replace("\\s+","");
+        this.name = name.replace(" ","");
         this.cost = cost;
         this.description = description;
         this.start_sales = start_sales;
