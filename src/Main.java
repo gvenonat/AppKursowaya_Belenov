@@ -1,4 +1,3 @@
-import com.sun.jdi.event.ExceptionEvent;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,49 +32,27 @@ public class Main extends Application {
     final private int HEIGHT = 600;
 
     private ArrayList<Sales> sales = new ArrayList<>();
-    private ArrayList<Tariffs> tariffs = new ArrayList<>();
+    private static ArrayList<Tariffs> tariffs = new ArrayList<>();
     private ArrayList<Discounts> discounts = new ArrayList<>();
 
-    public static void main(String[] args) {
-        try {
-            connectDB();
-        } catch (Exception e) {
-            return;
-        }
+    public static void main(String[] args) throws SQLException {
         insertData();
         launch(args);
     }
 
-    private static void connectDB() throws SQLException {
-        final String user = "postgres";
-        final String password = "12345";
-        final String url = "jdbc:postgresql://localhost:5432/AIS_UPTP";
+    private static void insertData() throws SQLException {
+        DBAppManager dbAppManager = DBAppManager.getInstance();
 
-        final Connection connection = DriverManager.getConnection(url, user, password);
-
-        try (PreparedStatement statement = (connection).prepareStatement("SELECT amount, time_in_company FROM discounts WHERE id = (?)")) {
-
-            statement.setInt(1, 2);
-
-            final ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                String byAmount = "amount: " + resultSet.getString("amount");
-                final int byTimeInCompany = resultSet.getInt("time_in_company");
-                System.out.println(byAmount);
-                System.out.println(byTimeInCompany);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-            connection.close();
+        ResultSet tariffsData = dbAppManager.getTariffsData();
+        while (tariffsData.next()) {
+            tariffs.add(new Tariffs(tariffsData.getInt(1),
+                            tariffsData.getString(2),
+                            tariffsData.getInt(3),
+                            tariffsData.getString(4),
+                            tariffsData.getDate(5),
+                            tariffsData.getDate(6)));
         }
     }
-
-    private static void insertData(){
-
-    }
-
     public void start(Stage primaryStage) throws Exception {
 
         root.getChildren().add(strings);
