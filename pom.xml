@@ -20,7 +20,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
+            <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
 
@@ -33,7 +33,7 @@
     </dependencies>
 
     <build>
-        <finalName>jdbc-tutorial</finalName>
+        <finalName>AppKursowaya</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

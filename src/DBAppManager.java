@@ -20,15 +20,18 @@ public class DBAppManager{
         return instance;
     }
 
-//    protected final <T> T doInConnectionBlock(Object o, String sql, String... columnNames) {
-//        Statement statement = (Statement) o;
-//        try (Connection connection =  DriverManager.getConnection(url, user, password)){
-//            PreparedStatement preparedStatement = columnNames.length > 0 ? connection.prepareStatement(sql, columnNames) : connection.prepareStatement(sql);
-//            return (T) statement.executeQuery(preparedStatement.toString());
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    /*
+    функция для выполнения любых запросов sql, которые пришли
+     */
+/*    protected final <T> T doInConnectionBlock(Object o, String sql, String... columnNames) {
+        Statement statement = (Statement) o;
+        try (Connection connection =  DriverManager.getConnection(url, user, password)){
+            PreparedStatement preparedStatement = columnNames.length > 0 ? connection.prepareStatement(sql, columnNames) : connection.prepareStatement(sql);
+            return (T) statement.executeQuery(preparedStatement.toString());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }*/
 
     public ResultSet getTariffsData() throws SQLException {
         String sql = "SELECT * FROM TARIFFS";
@@ -72,19 +75,34 @@ public class DBAppManager{
         }
     }
 
-/*    public long saveSaleData(Integer id_discount,
+    public long saveSaleData(Integer id_discount,
                              Integer id_tariffs) throws SQLException {
-        String sql = ""
+        String sql = "INSERT INTO SALES (ID_TARIFF, ID_DISCOUNT) VALUES (?, ?) RETURNING ID_SALES";
 
         try (Connection connection =  DriverManager.getConnection(url, user, password)) {
-            PreparedStatement statement = null;
-            statement.setInt(1, id_discount);
-            statement.setInt(2, id_tariffs);
-            PreparedStatement preparedStatement = columnNames.length > 0 ? connection.prepareStatement(sql, columnNames) : connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id_tariffs);
+            statement.setInt(2, id_discount);
+
             final ResultSet resultSet = statement.executeQuery();
-            return ;
+
+            return resultSet.next() ? resultSet.getInt(1) : 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }*/
+    }
+
+    public long saveSaleData(Integer id_tariffs) throws SQLException {
+        String sql = "INSERT INTO SALES (ID_TARIFF) VALUES (?) RETURNING ID_SALES";
+
+        try (Connection connection =  DriverManager.getConnection(url, user, password)) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id_tariffs);
+
+            final ResultSet resultSet = statement.executeQuery();
+            return resultSet.next() ? resultSet.getInt(1) : 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
