@@ -44,6 +44,7 @@ public class Main extends Application {
     private static ArrayList<Discount> discounts = new ArrayList<>();
 
     static DBAppManager dbAppManager = DBAppManager.getInstance();
+    PieChart pieChart = null;
 
     public static void main(String[] args) throws SQLException {
         insertData();
@@ -61,6 +62,7 @@ public class Main extends Application {
                             tariffsData.getDate(6)));
         }
 
+        discounts.add(new Discount());
         ResultSet discountsData = dbAppManager.getDiscountsData();
         while (discountsData.next()) {
             discounts.add(new Discount(discountsData.getInt(1),
@@ -121,13 +123,15 @@ public class Main extends Application {
                 long id = 0;
                 if (tariff != null) {
                     try {
-                        if (discount != null) {
+                        if (discount != null && discount.getId() != -1) {
                             id = dbAppManager.saveSaleData(tariff.getId(), discount.getId());
+                            sales.add(new Sale((int) id, tariff.getId(), discount.getId()));
+                            System.out.println("add Sale with tariff = " + tariff.getName() + " and Discount = " + discount);
                         } else {
                             id = dbAppManager.saveSaleData(tariff.getId());
+                            sales.add(new Sale((int) id, tariff.getId()));
+                            System.out.println("add Sale with tariff = " + tariff.getName());
                         }
-                        if (id != 0)
-                            sales.add(new Sale((int) id, tariff.getId(), discount.getId()));
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -147,24 +151,26 @@ public class Main extends Application {
                                     .orElse(null);
                     String nameTariff = tariffForMap == null ? "unknown" : tariffForMap.getName();
                     Integer countTariff = mapTariffs.get(nameTariff) == null ? 0 : mapTariffs.get(nameTariff);
+                    System.out.println("Map[" + nameTariff + "]: countTariff = " + countTariff);
                     mapTariffs.put(nameTariff, countTariff + 1);
                 }
                 Integer summ = 0;
                 for (Map.Entry<String, Integer> entry : mapTariffs.entrySet()) {
                     summ += entry.getValue();
                 }
-                System.out.println("summ = " + summ);
                 ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-
-                int i = 0;
                 for (Map.Entry<String, Integer> entry : mapTariffs.entrySet()) {
-                    i++;
-                    System.out.println("value" + i + " = " + (100 * entry.getValue() / summ));
                     data.add(new PieChart.Data(entry.getKey(), 100 * entry.getValue() / summ));
                 }
-                PieChart pieChart = new PieChart(data);
-                pieChart.setTitle("Продажи тарифов");
-                strings.getChildren().addAll(pieChart);
+                if (pieChart == null) {
+                    pieChart = new PieChart(data);
+                    pieChart.setTitle("Продажи тарифов");
+                    strings.getChildren().addAll(pieChart);
+                } else {
+                    pieChart.getData().clear();
+                    pieChart.getData().retainAll();
+                    pieChart.setData(data);
+                }
             }
         });
 

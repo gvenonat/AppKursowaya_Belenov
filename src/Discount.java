@@ -17,8 +17,14 @@ public class Discount {
         this.timeInCompany = timeInCompany;
     }
 
+    public Discount() {
+        this.id = -1;
+    }
+
     @Override
     public String toString() {
+        if (this.id == -1)
+            return String.format("отсутствует");
         return String.format("%s год", timeInCompany.toString());
     }
 

@@ -6,10 +6,16 @@ public class Sale {
     private Integer id_discount;
 
 
-    public Sale(int id, int id_discount, int id_tariff) {
+    public Sale(int id, int id_tariff, int id_discount) {
         this.id = id;
         this.id_discount = id_discount;
         this.id_tariff = id_tariff;
+    }
+
+    public Sale(int id, int id_tariff) {
+        this.id = id;
+        this.id_tariff = id_tariff;
+        this.id_discount = -1;
     }
 
     public Integer getId() {

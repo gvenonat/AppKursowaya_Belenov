@@ -75,8 +75,8 @@ public class DBAppManager{
         }
     }
 
-    public long saveSaleData(Integer id_discount,
-                             Integer id_tariffs) throws SQLException {
+    public long saveSaleData(Integer id_tariffs,
+                             Integer id_discount) throws SQLException {
         String sql = "INSERT INTO SALES (ID_TARIFF, ID_DISCOUNT) VALUES (?, ?) RETURNING ID_SALES";
 
         try (Connection connection =  DriverManager.getConnection(url, user, password)) {
