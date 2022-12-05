@@ -17,6 +17,8 @@ IDEA -> File -> Project Structure -> Lib && Global Lib -> '+' -> Java -> 'path' 
 - Интерфейс
 - Доп. логика по теме
 
+## Пример работы приложения - [YouTube link](https://youtu.be/Kcf5v1c7LTY)
+
 ## БД - PostgreSQL
 1. Cкачать PostgreSQL
 ```
