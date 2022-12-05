@@ -9,11 +9,11 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import lombok.experimental.var;
 
 import java.sql.*;
 import java.util.*;
@@ -28,7 +28,6 @@ public class Main extends Application {
     HBox TariffsAll = new HBox(); // горизонтально - список всех тарифов
     HBox DiscountsAll = new HBox(); // горизонтально - список всех скидок
     HBox hBoxChartSale = new HBox(); // горизонтально - добавить продажу
-    HBox nothing = new HBox(); // горизонтально - добавить продажу
     ComboBox<Tariff> tariffsBox = new ComboBox<>();
     ComboBox<Discount> discountsBox = new ComboBox<>();
     Text textInfo = new Text();
@@ -81,6 +80,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         root.getChildren().add(strings);
+        strings.getChildren().add(new HBox());// пустая строка
+        strings.getChildren().add(new HBox());// пустая строка
 
         strings.setPadding(new Insets(10, 30, 10, 30));
         strings.setSpacing(20);
@@ -88,18 +89,17 @@ public class Main extends Application {
         strings.getChildren().add(new Text("Добавить новую продажу:"));
         strings.getChildren().add(addSale);
 
-        // это поле выбора из данных
         tariffsBox.getItems().addAll(tariffs);
         discountsBox.getItems().addAll(discounts);
 
         TariffsAll.setSpacing(10);
         TariffsAll.getChildren().add(tariffsBox);
-        TariffsAll.getChildren().add(textInfo); // зачем ?
+        TariffsAll.getChildren().add(textInfo);
 //        TariffsAll.setPrefWidth(50);
 
         DiscountsAll.setSpacing(10);
         DiscountsAll.getChildren().add(discountsBox);
-        DiscountsAll.getChildren().add(textInfo); // зачем ?
+        DiscountsAll.getChildren().add(textInfo);
 //        DiscountsAll.setPrefWidth(50);
 
         addSale.setSpacing(10);
@@ -109,7 +109,7 @@ public class Main extends Application {
         addSale.getChildren().add(DiscountsAll); // список всех скидок
         addSale.getChildren().add(buttonAddSale);
 
-        strings.getChildren().add(nothing);
+        strings.getChildren().add(new HBox()); // пустая строка
         strings.getChildren().add(hBoxChartSale);
         hBoxChartSale.getChildren().add(new Text("Статистика по продажам: "));
         hBoxChartSale.getChildren().add(buttonChartSale); // отрисовать график
@@ -126,11 +126,11 @@ public class Main extends Application {
                         if (discount != null && discount.getId() != -1) {
                             id = dbAppManager.saveSaleData(tariff.getId(), discount.getId());
                             sales.add(new Sale((int) id, tariff.getId(), discount.getId()));
-                            System.out.println("add Sale with tariff = " + tariff.getName() + " and Discount = " + discount);
+                            System.out.println(String.format("add Sale with [tariff]:%s, [tarId]:%s, [Discount]:%s", tariff.getName(), tariff.getId().toString(), discount));
                         } else {
                             id = dbAppManager.saveSaleData(tariff.getId());
                             sales.add(new Sale((int) id, tariff.getId()));
-                            System.out.println("add Sale with tariff = " + tariff.getName());
+                            System.out.println(String.format("add Sale with [tariff]:%s, [tarId]:%s", tariff.getName(), tariff.getId().toString()));
                         }
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
@@ -151,7 +151,7 @@ public class Main extends Application {
                                     .orElse(null);
                     String nameTariff = tariffForMap == null ? "unknown" : tariffForMap.getName();
                     Integer countTariff = mapTariffs.get(nameTariff) == null ? 0 : mapTariffs.get(nameTariff);
-                    System.out.println("Map[" + nameTariff + "]: countTariff = " + countTariff);
+                    System.out.println(String.format("Map[%s]: счётчик = %s, fromWeb[id] = %s", nameTariff, countTariff, sale.getId_tariff().toString()));
                     mapTariffs.put(nameTariff, countTariff + 1);
                 }
                 Integer summ = 0;
@@ -174,8 +174,17 @@ public class Main extends Application {
             }
         });
 
+        MenuBarManager menuBarManager = new MenuBarManager();
+/*        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(menuBarManager.getMenuBar());
+        borderPane.getChildren().add(strings);
+        Scene scene = new Scene(borderPane, WIDTH, HEIGHT);*/
+
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setTitle("Company AIS_UPTP");
+
+        ((Group) scene.getRoot()).getChildren().addAll(menuBarManager.getMenuBar());
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }

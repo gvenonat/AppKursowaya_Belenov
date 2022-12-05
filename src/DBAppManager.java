@@ -62,7 +62,7 @@ public class DBAppManager{
     }
 
     public ResultSet getSalesData() throws SQLException {
-        String sql = "SELECT * FROM SALES";
+        String sql = "SELECT id_sales, id_tariff, id_discount FROM SALES";
 
         try (Connection connection = DriverManager.getConnection(url, user, password)) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -75,8 +75,7 @@ public class DBAppManager{
         }
     }
 
-    public long saveSaleData(Integer id_tariffs,
-                             Integer id_discount) throws SQLException {
+    public long saveSaleData(Integer id_tariffs, Integer id_discount) throws SQLException {
         String sql = "INSERT INTO SALES (ID_TARIFF, ID_DISCOUNT) VALUES (?, ?) RETURNING ID_SALES";
 
         try (Connection connection =  DriverManager.getConnection(url, user, password)) {
