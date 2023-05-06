@@ -1,0 +1,6 @@
+Отчёт о продажах за месяц
+
+Всего было оформлено договоров: <<[s.getCountSales()]>> 
+Из них standart 1 оформили - <<[s.getCountStd1()]>> 
+Из них standart 2 оформили - <<[s.getCountStd2()]>>
+Из них standart 3 оформили - <<[s.getCountStd3()]>>

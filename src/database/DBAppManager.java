@@ -1,12 +1,21 @@
+package database;
+
 import java.sql.*;
 
 public class DBAppManager{
     private static DBAppManager instance;
 //    DataSource dataSource;
-    final String user = "postgres";
-    final String password = "12345";
-    final String url = "jdbc:postgresql://localhost:5432/AIS_UPTP";
-    private DBAppManager() throws SQLException {
+    private String user;
+    private String password;
+    final String url = "jdbc:postgresql://localhost:5432/AIS_TPOCC";
+    public DBAppManager() throws SQLException {
+        this.user = "postgres";
+        this.password = "12345";
+    }
+
+    public DBAppManager(String user, String password) throws SQLException {
+        this.user = user;
+        this.password = password;
     }
 
     public static DBAppManager getInstance() {
@@ -20,6 +29,15 @@ public class DBAppManager{
         return instance;
     }
 
+    public boolean checkConnection() {
+        String sql = "SELECT 1";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
     /*
     функция для выполнения любых запросов sql, которые пришли
      */
@@ -32,6 +50,35 @@ public class DBAppManager{
             throw new RuntimeException(e);
         }
     }*/
+
+    public ResultSet getCountSales() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM SALES WHERE SALES.DATE_OF_SALE > (NOW() - interval '30 day')::DATE";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            final ResultSet resultSet = statement.executeQuery();
+
+            return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet getCountStd(Integer id_tariffs) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM SALES WHERE SALES.DATE_OF_SALE > (NOW() - interval '30 day')::DATE AND SALES.ID_TARIFF = ?";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id_tariffs);
+
+            final ResultSet resultSet = statement.executeQuery();
+
+            return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public ResultSet getTariffsData() throws SQLException {
         String sql = "SELECT * FROM TARIFFS";
