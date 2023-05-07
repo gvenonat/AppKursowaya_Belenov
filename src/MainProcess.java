@@ -27,17 +27,23 @@ public class MainProcess extends Application {
     Group root = new Group(); // обязательно
     VBox strings = new VBox(); // вертикально
     HBox addSale = new HBox(); // горизонтально - добавить продажу
+    HBox addSale_line2 = new HBox(); // горизонтально - добавить продажу
     HBox TariffsAll = new HBox(); // горизонтально - список всех тарифов
     HBox DiscountsAll = new HBox(); // горизонтально - список всех скидок
+    HBox CustomersAll = new HBox(); // горизонтально - список всех клиентов
+    HBox MobilePhoneAll = new HBox(); // номера телефонов клиента
     HBox hBoxChartSale = new HBox(); // горизонтально - добавить продажу
     ComboBox<Tariff> tariffsBox = new ComboBox<>();
     ComboBox<Discount> discountsBox = new ComboBox<>();
     Text textInfo = new Text();
-    Button buttonAddSale = new Button("Add Sale");
+    Button buttonAddSale = new Button("Добавить");
 
-    Button buttonChartSale = new Button("Chart Sale");
+    Button buttonEditSale = new Button("Изменить");
+    Button buttonDeleteSale = new Button("Удалить");
 
-    Button buttonGeneratePattern = new Button("Generate pattern");
+    Button buttonChartSale = new Button("Отрисовать");
+
+    Button buttonGeneratePattern = new Button("Сгенерировать");
 
     static DBAppManager dbAppManager;
     final private int WIDTH = 1000;
@@ -192,7 +198,7 @@ public class MainProcess extends Application {
         Scene scene = new Scene(borderPane, WIDTH, HEIGHT);*/
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-        primaryStage.setTitle("Application AIS_TPOCC");
+        primaryStage.setTitle("Приложение отдела продаж ТПОСС");
 
         ((Group) scene.getRoot()).getChildren().addAll(menuBarManager.getMenuBar());
 
@@ -210,9 +216,26 @@ public class MainProcess extends Application {
 
         strings.getChildren().add(new Text("Добавить новую продажу:"));
         strings.getChildren().add(addSale);
+        strings.getChildren().add(addSale_line2);
+        fillAddSale(); // Отрисовали места для полей
+        logicAddSale(); // добавление логики "добавить продажу"
 
+
+        strings.getChildren().add(new HBox()); // пустая строка
+        strings.getChildren().add(hBoxChartSale);
+        hBoxChartSale.getChildren().add(new Text("Статистика по продажам: "));
+        hBoxChartSale.getChildren().add(buttonChartSale); // отрисовать график
+
+        hBoxChartSale.getChildren().add(new Text("\t\t"));
+        hBoxChartSale.getChildren().add(new Text("Сгенерировать отчёт: "));
+        hBoxChartSale.getChildren().add(buttonGeneratePattern);
+    }
+
+    private void logicAddSale() {
         tariffsBox.getItems().addAll(tariffs);
         discountsBox.getItems().addAll(discounts);
+        ComboBox<Discount> customersBox = new ComboBox<>();
+        ComboBox<Discount> phoneBox = new ComboBox<>();
 
         TariffsAll.setSpacing(10);
         TariffsAll.getChildren().add(tariffsBox);
@@ -224,20 +247,31 @@ public class MainProcess extends Application {
         DiscountsAll.getChildren().add(textInfo);
 //        DiscountsAll.setPrefWidth(50);
 
+        CustomersAll.setSpacing(10);
+        CustomersAll.getChildren().add(customersBox);
+        CustomersAll.getChildren().add(textInfo);
+
+        MobilePhoneAll.setSpacing(10);
+        MobilePhoneAll.getChildren().add(phoneBox);
+        MobilePhoneAll.getChildren().add(textInfo);
+    }
+
+    private void fillAddSale() {
         addSale.setSpacing(10);
         addSale.getChildren().add(new Text("Название тарифа: "));
-        addSale.getChildren().add(TariffsAll); // список всех тарифов
+        addSale_line2.getChildren().add(TariffsAll); // список всех тарифов
+        addSale_line2.getChildren().add(new Text("\t"));
         addSale.getChildren().add(new Text("Скидка - сколько лет: "));
-        addSale.getChildren().add(DiscountsAll); // список всех скидок
+        addSale_line2.getChildren().add(DiscountsAll); // список всех скидок
+        addSale_line2.getChildren().add(new Text("\t"));
+        addSale.getChildren().add(new Text("Клиент: "));
+        addSale_line2.getChildren().add(CustomersAll); // список всех клиентов
+        addSale_line2.getChildren().add(new Text("\t"));
+        addSale.getChildren().add(new Text("Телефон: "));
+        addSale_line2.getChildren().add(MobilePhoneAll); // список всех клиентов
+        addSale_line2.getChildren().add(new Text("\t"));
         addSale.getChildren().add(buttonAddSale);
-
-        strings.getChildren().add(new HBox()); // пустая строка
-        strings.getChildren().add(hBoxChartSale);
-        hBoxChartSale.getChildren().add(new Text("Статистика по продажам: "));
-        hBoxChartSale.getChildren().add(buttonChartSale); // отрисовать график
-
-        hBoxChartSale.getChildren().add(new Text("\t\t"));
-        hBoxChartSale.getChildren().add(new Text("Сгенерировать отчёт: "));
-        hBoxChartSale.getChildren().add(buttonGeneratePattern);
+        addSale.getChildren().add(buttonEditSale);
+        addSale.getChildren().add(buttonDeleteSale);
     }
 }

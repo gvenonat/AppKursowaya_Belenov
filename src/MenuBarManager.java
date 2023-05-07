@@ -21,14 +21,14 @@ public class MenuBarManager {
         menuBar = new MenuBar();
 
         // Create menus
-        fileMenu = new Menu("File");
+        fileMenu = new Menu("Файл");
 //        editMenu = new Menu("Edit");
-        helpMenu = new Menu("Help");
+        helpMenu = new Menu("Помощь");
 
         // Create MenuItems
 //        newItem = new MenuItem("New");
 //        openFileItem = new MenuItem("Open File");
-        exitItem = new MenuItem("Exit");
+        exitItem = new MenuItem("Выход");
 
 //        copyItem = new MenuItem("Copy");
 //        pasteItem = new MenuItem("Paste");

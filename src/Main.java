@@ -89,7 +89,7 @@ public class Main extends Application {
         Scene scene = new Scene(borderPane, WIDTH, HEIGHT);*/
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-        primaryStage.setTitle("Application AIS_TPOCC");
+        primaryStage.setTitle("Приложение отдела продаж ТПОСС");
 
         ((Group) scene.getRoot()).getChildren().addAll(menuBarManager.getMenuBar());
 
